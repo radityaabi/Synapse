@@ -44,14 +44,14 @@ export function TaskItem({ task }: { task: Task }) {
           size="xs"
         >
           <EyeIcon />
-          View
+          <span className="text-xs">View</span>
         </Button>
         <Button
           className="mt-2 bg-red-500 text-white hover:bg-red-700"
           size="xs"
         >
           <TrashIcon />
-          Delete
+          <span className="text-xs">Delete</span>
         </Button>
       </div>
     </section>
