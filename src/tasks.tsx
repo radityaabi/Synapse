@@ -1,5 +1,6 @@
 import { Button } from "./components/ui/button";
 import { TrashIcon, EyeIcon } from "lucide-react";
+import { useState } from "react";
 
 type Task = {
   id: number;
@@ -9,7 +10,7 @@ type Task = {
 
 type Tasks = Task[];
 
-const dataTasks = [
+const initialDataTasks = [
   { id: 1, title: "Learn React", isDone: false },
   { id: 2, title: "Build a ToDo App", isDone: true },
   { id: 3, title: "Master TypeScript", isDone: false },
@@ -18,16 +19,19 @@ const dataTasks = [
 ];
 
 export function Tasks() {
-  function handleDelete() {
-    console.log(`Deleted`);
+  const [tasks, setTasks] = useState(initialDataTasks);
+
+  function handleDelete(id: number) {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
   }
 
   return (
     <div>
       <ul className="flex flex-col gap-4">
-        {dataTasks.map((task) => (
+        {tasks.map((task) => (
           <li key={task.id}>
-            <TaskItem task={task} handleDelete={handleDelete} />
+            <TaskItem task={task} handleDelete={() => handleDelete(task.id)} />
           </li>
         ))}
       </ul>
