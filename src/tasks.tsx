@@ -33,14 +33,14 @@ export function Tasks() {
 
 export function TaskItem({ task }: { task: Task }) {
   return (
-    <section className="flex justify-between rounded-lg bg-gray-50 p-4 outline outline-1 outline-gray-200">
+    <section className="flex justify-between rounded-lg bg-gray-50 p-4 outline-1 outline-gray-200">
       <div>
         <h2 className="text-lg font-bold">{task.title}</h2>
         <p>{task.isDone ? "✅ Done" : "📝 Todo"}</p>
       </div>
       <div className="flex gap-2">
         <Button
-          className="mt-2 bg-emerald-500 text-white hover:bg-gray-300"
+          className="mt-2 bg-emerald-500 text-white hover:bg-emerald-700"
           size="xs"
         >
           <EyeIcon />
