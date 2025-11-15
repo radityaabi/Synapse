@@ -18,12 +18,16 @@ const dataTasks = [
 ];
 
 export function Tasks() {
+  function handleDelete() {
+    console.log(`Deleted`);
+  }
+
   return (
     <div>
       <ul className="flex flex-col gap-4">
         {dataTasks.map((task) => (
           <li key={task.id}>
-            <TaskItem task={task} />
+            <TaskItem task={task} handleDelete={handleDelete} />
           </li>
         ))}
       </ul>
@@ -31,11 +35,13 @@ export function Tasks() {
   );
 }
 
-export function TaskItem({ task }: { task: Task }) {
-  function handleDelete() {
-    console.log(`Deleting task with id: ${task.id}`);
-  }
-
+export function TaskItem({
+  task,
+  handleDelete,
+}: {
+  task: Task;
+  handleDelete: () => void;
+}) {
   return (
     <section className="flex justify-between rounded-lg bg-gray-50 p-4 outline-1 outline-gray-200">
       <div>
