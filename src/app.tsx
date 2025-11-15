@@ -5,7 +5,7 @@ export function App() {
   return (
     <div className="flex justify-center">
       <main className="w-full max-w-lg space-y-4">
-        <h1 className="my-4 text-3xl font-bold text-emerald-800">
+        <h1 className="my-4 text-3xl font-bold text-emerald-600">
           Task Management
         </h1>
         <Button>
