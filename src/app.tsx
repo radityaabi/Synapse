@@ -1,4 +1,4 @@
-import { Tasks } from "./tasks";
+import { Tasks } from "./modules/task/tasks";
 import { Button } from "@/components/ui/button";
 
 export function App() {
