@@ -1,3 +1,11 @@
+type Task = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
+
+type Tasks = Task[];
+
 const dataTasks = [
   { id: 1, title: "Learn React", isDone: false },
   { id: 2, title: "Build a ToDo App", isDone: true },
@@ -9,26 +17,22 @@ const dataTasks = [
 export function Tasks() {
   return (
     <div>
-      <h2>Tasks</h2>
-      <ul>
+      <ul className="flex flex-col gap-4">
         {dataTasks.map((task) => (
-          <TaskItem key={task.id} title={task.title} isDone={task.isDone} />
+          <li key={task.id}>
+            <TaskItem task={task} />
+          </li>
         ))}
       </ul>
     </div>
   );
 }
 
-export function TaskItem({
-  title,
-  isDone,
-}: {
-  title: string;
-  isDone: boolean;
-}) {
-  if (isDone) {
-    return null;
-  }
-
-  return <li>{title}</li>;
+export function TaskItem({ task }: { task: Task }) {
+  return (
+    <section className="rounded-lg bg-emerald-500 p-4">
+      <h2 className="text-lg font-bold">{task.title}</h2>
+      <p>{task.isDone ? "✅ Done" : "📝 Todo"}</p>
+    </section>
+  );
 }
