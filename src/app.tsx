@@ -8,8 +8,8 @@ export function App() {
         <h1 className="my-4 text-3xl font-bold text-purple-800">
           Task Management
         </h1>
-        <Button className="my-3 bg-purple-500 hover:bg-purple-700">
-          Add Contact
+        <Button className="text-md my-3 bg-purple-500 font-bold hover:bg-purple-700">
+          +Add Task
         </Button>
         <Tasks />
       </main>
