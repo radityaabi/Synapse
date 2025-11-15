@@ -39,17 +39,11 @@ export function TaskItem({ task }: { task: Task }) {
         <p>{task.isDone ? "✅ Done" : "📝 Todo"}</p>
       </div>
       <div className="flex gap-2">
-        <Button
-          className="mt-2 bg-emerald-500 text-white hover:bg-emerald-700"
-          size="xs"
-        >
+        <Button size="xs">
           <EyeIcon />
           <span className="text-xs">View</span>
         </Button>
-        <Button
-          className="mt-2 bg-red-500 text-white hover:bg-red-700"
-          size="xs"
-        >
+        <Button size="xs" variant="destructive">
           <TrashIcon />
           <span className="text-xs">Delete</span>
         </Button>
