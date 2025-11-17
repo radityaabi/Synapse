@@ -55,11 +55,11 @@ export function TaskItem({
       <div className="flex gap-2">
         <Button size="xs">
           <EyeIcon />
-          <span className="text-xs">View</span>
+          <span>View</span>
         </Button>
         <Button variant="destructive" size="xs" onClick={handleDelete}>
           <TrashIcon />
-          <span className="text-xs">Delete</span>
+          <span>Delete</span>
         </Button>
       </div>
     </section>
