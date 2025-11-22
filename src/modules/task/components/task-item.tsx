@@ -59,6 +59,8 @@ export function TaskItem({
     onCloseActionMenu();
   };
 
+  const isDoneStyling = `${isDone ? "text-gray-400" : "text-gray-500"}`;
+
   return (
     <Card
       className={`flex h-full flex-col gap-2 rounded-none py-2 transition-all duration-200 hover:shadow-md ${
@@ -150,19 +152,15 @@ export function TaskItem({
 
         {/* Description */}
         {task.description && (
-          <p
-            className={`mb-3 text-xs ${
-              isDone ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            {task.description}
-          </p>
+          <p className={`mb-3 text-xs ${isDoneStyling}`}>{task.description}</p>
         )}
 
         {/* Metadata */}
         <div className="space-y-2">
           {/* Dates */}
-          <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+          <div
+            className={`flex flex-wrap items-center gap-2 text-xs ${isDoneStyling}`}
+          >
             {/* Created Date */}
             {dateInfo.createdAt && (
               <div className="flex items-center gap-1">
@@ -208,11 +206,13 @@ export function TaskItem({
 
       {/* Status Selector - Footer */}
       <CardFooter className="flex items-center justify-between border-t bg-gray-50 pt-2 [.border-t]:pt-2">
-        <div className="text-xs text-gray-500">
-          Updated:{" "}
-          {dateInfo.updatedAt?.formatted ||
-            dateInfo.createdAt?.formatted ||
-            "Recently"}
+        <div className={`text-xs font-normal ${isDoneStyling}`}>
+          <div>Updated:</div>
+          <div className="mt-1">
+            {dateInfo.updatedAt?.longFormatted ||
+              dateInfo.createdAt?.longFormatted ||
+              "Recently"}
+          </div>
         </div>
 
         <Select

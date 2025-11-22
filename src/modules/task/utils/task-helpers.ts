@@ -20,10 +20,6 @@ import {
   isPast,
 } from "date-fns";
 
-export const formatDate = (date: Date): string => {
-  return format(date, "MMM dd");
-};
-
 export const getRelativeTime = (date: Date): string => {
   const now = new Date();
   const diffInDays = differenceInCalendarDays(date, now);
@@ -35,13 +31,14 @@ export const getRelativeTime = (date: Date): string => {
   else if (diffInDays > 0) return `In ${diffInDays}d`;
   else if (diffInDays < 0) return "Overdue";
 
-  return formatDate(date);
+  return format(date, "MMM dd");
 };
 
 export const getDateDisplayInfo = (task: Task) => {
   const targetDate = task.targetDate
     ? {
-        formatted: formatDate(task.targetDate),
+        formatted: format(task.targetDate, "MMM dd"),
+        longFormatted: format(task.targetDate, "Pp"),
         relative: getRelativeTime(task.targetDate),
         isToday: isToday(task.targetDate),
         isYesterday: isYesterday(task.targetDate) && task.status !== "done",
@@ -51,13 +48,15 @@ export const getDateDisplayInfo = (task: Task) => {
 
   const createdAt = task.createdAt
     ? {
-        formatted: formatDate(task.createdAt),
+        formatted: format(task.createdAt, "MMM dd"),
+        longFormatted: format(task.createdAt, "Pp"),
       }
     : null;
 
   const updatedAt = task.updatedAt
     ? {
-        formatted: formatDate(task.updatedAt),
+        formatted: format(task.updatedAt, "MMM dd"),
+        longFormatted: format(task.updatedAt, "Pp"),
       }
     : null;
 
