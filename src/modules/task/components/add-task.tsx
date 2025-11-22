@@ -10,7 +10,7 @@ interface AddTaskProps {
 }
 
 export function AddTask({ onTaskAdded, onCancel }: AddTaskProps) {
-  const { dateTime, setDateTime, handleTimeChange, resetForm } = useTaskForm();
+  const { dateTime, setDateTime, handleTimeChange } = useTaskForm();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,7 +36,7 @@ export function AddTask({ onTaskAdded, onCancel }: AddTaskProps) {
 
     onTaskAdded(newTask);
     event.currentTarget.reset();
-    resetForm();
+    setDateTime(undefined);
   };
 
   return (

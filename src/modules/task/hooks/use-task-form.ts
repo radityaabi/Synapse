@@ -19,14 +19,9 @@ export function useTaskForm({ initialDateTime }: UseTaskFormProps = {}) {
     }
   };
 
-  const resetForm = () => {
-    setDateTime(undefined);
-  };
-
   return {
     dateTime,
     setDateTime,
     handleTimeChange,
-    resetForm,
   };
 }

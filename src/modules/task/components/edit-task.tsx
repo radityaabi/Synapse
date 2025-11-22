@@ -11,7 +11,7 @@ export interface EditTaskProps {
 }
 
 export function EditTask({ task, onTaskEdited, onCancel }: EditTaskProps) {
-  const { dateTime, setDateTime, handleTimeChange, resetForm } = useTaskForm({
+  const { dateTime, setDateTime, handleTimeChange } = useTaskForm({
     initialDateTime: task.targetDate ? new Date(task.targetDate) : undefined,
   });
 
@@ -38,7 +38,8 @@ export function EditTask({ task, onTaskEdited, onCancel }: EditTaskProps) {
     console.log(updatedTask);
 
     onTaskEdited(task.id, updatedTask);
-    resetForm();
+    event.currentTarget.reset();
+    setDateTime(undefined);
   };
 
   return (
