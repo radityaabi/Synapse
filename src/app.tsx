@@ -1,18 +1,40 @@
-import { Tasks } from "./modules/task/tasks";
-import { Button } from "@/components/ui/button";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Tasks } from "@/modules/task/components/Tasks";
+
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex justify-center px-4">
+      <main className="w-full max-w-6xl space-y-4">
+        <h1 className="mx-4 my-4 text-3xl font-bold text-emerald-600">
+          Synapse
+        </h1>
+        {children}
+      </main>
+    </div>
+  );
+}
 
 export function App() {
   return (
-    <div className="flex justify-center">
-      <main className="w-full max-w-lg space-y-4">
-        <h1 className="my-4 text-3xl font-bold text-emerald-600">
-          Task Management
-        </h1>
-        <Button>
-          <span>+Add Task</span>
-        </Button>
-        <Tasks />
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/tasks"
+          element={
+            <Layout>
+              <Tasks />
+            </Layout>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Tasks />
+            </Layout>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
