@@ -121,7 +121,7 @@ export const useTasks = (
   return {
     tasks,
     addTask,
-    updateTask,
+    editTask: updateTask,
     deleteTask,
     getTask,
   };

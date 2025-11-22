@@ -2,8 +2,9 @@ import { useTasks } from "@/modules/task/hooks/use-task";
 import { sortTasks } from "@/modules/task/utils/task-helpers";
 import { TaskList } from "@/modules/task/components/task-list";
 import { AddTask } from "@/modules/task/components/add-task";
+import { EditTask } from "@/modules/task/components/edit-task";
 import { CATEGORY_CONFIG } from "@/modules/task/constant/task-constant";
-import type { CreateTaskData } from "@/modules/task/types/task";
+import type { CreateTaskData, Task } from "@/modules/task/types/task";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,8 +18,10 @@ import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 export function Tasks() {
-  const { tasks, updateTask, deleteTask, addTask } = useTasks();
+  const { tasks, editTask, deleteTask, addTask } = useTasks();
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   const categoryStats: Record<string, { completed: number; total: number }> =
     {};
@@ -49,6 +52,29 @@ export function Tasks() {
   const handleAddTask = (taskData: CreateTaskData) => {
     addTask(taskData);
     setIsAddTaskOpen(false);
+  };
+
+  const handleTaskEdit = (taskId: number, updates: Partial<Task>) => {
+    if (Object.keys(updates).length === 0) {
+      const taskToEdit = tasks.find((task) => task.id === taskId);
+      if (taskToEdit) {
+        setEditingTask(taskToEdit);
+        setIsEditTaskOpen(true);
+      }
+    } else {
+      editTask(taskId, updates);
+    }
+  };
+
+  const handleEditFormSubmit = (taskId: number, updates: Partial<Task>) => {
+    editTask(taskId, updates);
+    setIsEditTaskOpen(false);
+    setEditingTask(null);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditTaskOpen(false);
+    setEditingTask(null);
   };
 
   return (
@@ -84,6 +110,22 @@ export function Tasks() {
             </DialogContent>
           </Dialog>
         </div>
+
+        {/* Edit Task Dialog */}
+        <Dialog open={isEditTaskOpen} onOpenChange={setIsEditTaskOpen}>
+          <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Task</DialogTitle>
+            </DialogHeader>
+            {editingTask && (
+              <EditTask
+                task={editingTask}
+                onTaskEdited={handleEditFormSubmit}
+                onCancel={handleEditCancel}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
 
         {/* Category Dashboard */}
         <Card className="mb-6">
@@ -124,7 +166,7 @@ export function Tasks() {
 
         <TaskList
           tasks={sortTasks(tasks)}
-          onTaskUpdate={updateTask}
+          onTaskEdit={handleTaskEdit}
           onTaskDelete={deleteTask}
         />
       </div>

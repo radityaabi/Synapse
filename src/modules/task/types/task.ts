@@ -49,20 +49,20 @@ export interface TaskItemProps {
   isActionMenuOpen: boolean;
   onToggleActionMenu: () => void;
   onCloseActionMenu: () => void;
-  onStatusChange: (newStatus: TaskStatus) => void;
+  onTaskEdit: (taskId: number, updates: Partial<Task>) => void;
   onDelete: () => void;
 }
 
 export interface TaskListProps {
   tasks: Task[];
-  onTaskUpdate: (taskId: number, updates: Partial<Task>) => void;
+  onTaskEdit: (taskId: number, updates: Partial<Task>) => void;
   onTaskDelete: (taskId: number) => void;
 }
 
 export interface TasksHook {
   tasks: Task[];
   addTask: (task: CreateTaskData) => void;
-  updateTask: (taskId: number, updates: Partial<Task>) => void;
+  editTask: (taskId: number, updates: Partial<Task>) => void;
   deleteTask: (taskId: number) => void;
   getTask: (taskId: number) => Task | undefined;
 }

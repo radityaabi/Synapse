@@ -1,13 +1,9 @@
-import type { Task, TaskListProps } from "@/modules/task/types/task";
+import type { TaskListProps } from "@/modules/task/types/task";
 import { TaskItem } from "@/modules/task/components/task-item";
 import { useState } from "react";
 
-export function TaskList({ tasks, onTaskUpdate, onTaskDelete }: TaskListProps) {
+export function TaskList({ tasks, onTaskEdit, onTaskDelete }: TaskListProps) {
   const [openActionMenu, setOpenActionMenu] = useState<number | null>(null);
-
-  const handleStatusChange = (taskId: number, newStatus: Task["status"]) => {
-    onTaskUpdate(taskId, { status: newStatus });
-  };
 
   const handleDelete = (taskId: number) => {
     onTaskDelete(taskId);
@@ -31,7 +27,7 @@ export function TaskList({ tasks, onTaskUpdate, onTaskDelete }: TaskListProps) {
           isActionMenuOpen={openActionMenu === task.id}
           onToggleActionMenu={() => toggleActionMenu(task.id)}
           onCloseActionMenu={closeActionMenu}
-          onStatusChange={(newStatus) => handleStatusChange(task.id, newStatus)}
+          onTaskEdit={onTaskEdit}
           onDelete={() => handleDelete(task.id)}
         />
       ))}

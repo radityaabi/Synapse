@@ -24,6 +24,7 @@ import {
   Circle,
   PlayCircle,
   TargetIcon,
+  PencilIcon,
 } from "lucide-react";
 
 export function TaskItem({
@@ -31,7 +32,7 @@ export function TaskItem({
   isActionMenuOpen,
   onToggleActionMenu,
   onCloseActionMenu,
-  onStatusChange,
+  onTaskEdit,
   onDelete,
 }: TaskItemProps) {
   const statusDisplay = getStatusDisplay(task.status);
@@ -46,6 +47,15 @@ export function TaskItem({
 
   const handleDeleteClick = () => {
     onDelete();
+    onCloseActionMenu();
+  };
+
+  const handleStatusChange = (newStatus: Task["status"]) => {
+    onTaskEdit(task.id, { status: newStatus });
+  };
+
+  const handleEditClick = () => {
+    onTaskEdit(task.id, {});
     onCloseActionMenu();
   };
 
@@ -115,20 +125,19 @@ export function TaskItem({
                   onClick={onCloseActionMenu}
                 />
                 <div className="absolute top-7 right-0 z-20 min-w-[120px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-auto w-full justify-start px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50"
-                    onClick={onCloseActionMenu}
-                  >
+                  <Button variant="ghost" size="xs" onClick={onCloseActionMenu}>
                     <EyeIcon className="mr-2 h-3.5 w-3.5" />
                     View
                   </Button>
+                  <Button variant="ghost" size="xs" onClick={handleEditClick}>
+                    <PencilIcon className="mr-2 h-3.5 w-3.5" />
+                    Edit
+                  </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="xs"
                     onClick={handleDeleteClick}
-                    className="h-auto w-full justify-start px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"
+                    className="text-red-600 hover:bg-red-50"
                   >
                     <TrashIcon className="mr-2 h-3.5 w-3.5" />
                     Delete
@@ -154,7 +163,7 @@ export function TaskItem({
         <div className="space-y-2">
           {/* Dates */}
           <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-            {/* Created Date - Always Show */}
+            {/* Created Date */}
             {dateInfo.createdAt && (
               <div className="flex items-center gap-1">
                 <CalendarIcon className="h-3.5 w-3.5" />
@@ -162,15 +171,15 @@ export function TaskItem({
               </div>
             )}
 
-            {/* Target Date - Always Show */}
+            {/* Target Date */}
             {dateInfo.targetDate && (
               <div className="flex items-center gap-1">
                 <TargetIcon className="h-3.5 w-3.5" />
-                <span>Target {dateInfo.targetDate.formatted}</span>
+                <span>Target {dateInfo.targetDate?.formatted}</span>
               </div>
             )}
 
-            {/* Status Badge - Always Show but Different Content */}
+            {/* Status Badge */}
             <div
               className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs ${
                 isDone
@@ -208,7 +217,7 @@ export function TaskItem({
 
         <Select
           value={task.status}
-          onValueChange={(value: Task["status"]) => onStatusChange(value)}
+          onValueChange={(value: Task["status"]) => handleStatusChange(value)}
         >
           <SelectTrigger
             className={`h-7 text-xs ${
