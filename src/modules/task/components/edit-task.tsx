@@ -1,8 +1,8 @@
 import type { Task } from "@/modules/task/types/task";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { TaskFormFields } from "./task-form-fields";
-import { useTaskForm } from "../hooks/use-task-form";
+import { TaskFormFields } from "@/modules/task/components/task-form-fields";
+import { useTaskForm } from "@/modules/task/hooks/use-task-form";
 
 export interface EditTaskProps {
   task: Task;

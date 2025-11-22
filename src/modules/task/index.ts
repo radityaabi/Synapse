@@ -10,7 +10,7 @@ export type {
   TaskStatus,
   TaskItemProps,
   TaskListProps,
-} from "./types/task";
+} from "@/modules/task/types/task";
 
 export {
   formatDate,
@@ -20,6 +20,6 @@ export {
   getPriorityDisplay,
   getStatusDisplay,
   sortTasks,
-} from "./utils/task-helpers";
+} from "@/modules/task/utils/task-helpers";
 
 export { initialDataTasks } from "@/modules/task/data/initial-data-task";
