@@ -17,6 +17,7 @@ import {
   Circle,
   PlayCircle,
 } from "lucide-react";
+import { CountdownTimer } from "./countdown-timer";
 
 export function TaskDetailPage() {
   const { taskId } = useParams<{ taskId: string }>();
@@ -103,28 +104,6 @@ export function TaskDetailPage() {
                     >
                       {priorityDisplay.label}
                     </span>
-                    <div
-                      className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm ${
-                        isDone
-                          ? "bg-green-100 text-green-700"
-                          : dateInfo.targetDate?.isPastDue
-                            ? "bg-red-100 text-red-700"
-                            : dateInfo.targetDate?.isToday
-                              ? "bg-amber-100 text-amber-700"
-                              : dateInfo.targetDate?.isYesterday
-                                ? "bg-purple-100 text-purple-700"
-                                : "bg-blue-100 text-blue-700"
-                      }`}
-                    >
-                      <ClockIcon className="h-4 w-4" />
-                      <span className="font-medium">
-                        {isDone
-                          ? "Completed"
-                          : dateInfo.targetDate?.isPastDue
-                            ? "Overdue"
-                            : dateInfo.targetDate?.relative || "No due date"}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -141,6 +120,12 @@ export function TaskDetailPage() {
                 >
                   {task.description}
                 </p>
+              </div>
+            )}
+
+            {task.targetDate && (
+              <div className="mb-6">
+                <CountdownTimer targetDate={task.targetDate} isDone={isDone} />
               </div>
             )}
 
@@ -234,9 +219,7 @@ export function TaskDetailPage() {
                     <div
                       className={`rounded-full p-2 ${priorityDisplay.bgColor}`}
                     >
-                      <div className={priorityDisplay.textColor}>
-                        {/* You can add priority icons here if needed */}
-                      </div>
+                      <div className={priorityDisplay.textColor}></div>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-900">
@@ -252,9 +235,7 @@ export function TaskDetailPage() {
                   <div className="flex items-center gap-3">
                     <div
                       className={`rounded-full p-2 ${categoryDisplay.bgColor}`}
-                    >
-                      {/* You can add category icons here if needed */}
-                    </div>
+                    ></div>
                     <div>
                       <p className="text-sm font-medium text-gray-900">
                         Category
