@@ -86,7 +86,7 @@ export function TaskItem({
 
             <div>
               <h3
-                className={`text-sm font-semibold ${
+                className={`text-base font-semibold ${
                   isDone ? "text-gray-500 line-through" : "text-gray-900"
                 }`}
               >
@@ -152,12 +152,11 @@ export function TaskItem({
 
         {/* Description */}
         {task.description && (
-          <p className={`mb-3 text-xs ${isDoneStyling}`}>{task.description}</p>
+          <p className={`mb-3 text-sm ${isDoneStyling}`}>{task.description}</p>
         )}
 
         {/* Metadata */}
         <div className="space-y-2">
-          {/* Dates */}
           <div
             className={`flex flex-wrap items-center gap-2 text-xs ${isDoneStyling}`}
           >
@@ -176,30 +175,29 @@ export function TaskItem({
                 <span>Target {dateInfo.targetDate?.formatted}</span>
               </div>
             )}
+          </div>
 
-            {/* Status Badge */}
-            <div
-              className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs ${
-                isDone
-                  ? "bg-green-100 text-green-700"
-                  : dateInfo.targetDate?.isPastDue
-                    ? "bg-red-100 text-red-700"
-                    : dateInfo.targetDate?.isToday
-                      ? "bg-amber-100 text-amber-700"
-                      : dateInfo.targetDate?.isYesterday
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-blue-100 text-blue-700"
-              }`}
-            >
-              <ClockIcon className="h-3.5 w-3.5" />
-              <span className="font-medium">
-                {isDone
-                  ? "Completed"
-                  : dateInfo.targetDate?.isPastDue
-                    ? "Overdue"
-                    : dateInfo.targetDate?.relative || "No due date"}
-              </span>
-            </div>
+          <div
+            className={`flex w-fit items-center gap-1 rounded-full px-2 py-1 text-xs ${
+              isDone
+                ? "bg-green-100 text-green-700"
+                : dateInfo.targetDate?.isPastDue
+                  ? "bg-red-100 text-red-700"
+                  : dateInfo.targetDate?.isToday
+                    ? "bg-amber-100 text-amber-700"
+                    : dateInfo.targetDate?.isYesterday
+                      ? "bg-purple-100 text-purple-700"
+                      : "bg-blue-100 text-blue-700"
+            }`}
+          >
+            <ClockIcon className="h-3.5 w-3.5" />
+            <span className="font-medium">
+              {isDone
+                ? "Completed"
+                : dateInfo.targetDate?.isPastDue
+                  ? "Overdue"
+                  : dateInfo.targetDate?.relative || "No due date"}
+            </span>
           </div>
         </div>
       </CardContent>

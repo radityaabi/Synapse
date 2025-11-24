@@ -76,7 +76,7 @@ export const useTasks = (
     }
   };
 
-  const updateTask = (taskId: number, updates: Partial<Task>) => {
+  const editTask = (taskId: number, updates: Partial<Task>) => {
     try {
       if (Object.keys(updates).length > 0) {
         const validatedUpdates = UpdateTaskSchema.parse(updates);
@@ -121,7 +121,7 @@ export const useTasks = (
   return {
     tasks,
     addTask,
-    editTask: updateTask,
+    editTask,
     deleteTask,
     getTask,
   };

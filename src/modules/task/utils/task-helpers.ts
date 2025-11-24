@@ -28,7 +28,7 @@ export const getRelativeTime = (date: Date): string => {
   if (isToday(date)) return "Today";
   else if (isTomorrow(date)) return "Tomorrow";
   else if (isYesterday(date)) return "Yesterday";
-  else if (diffInDays > 0) return `In ${diffInDays}d`;
+  else if (diffInDays > 0) return `In ${diffInDays} days`;
   else if (diffInDays < 0) return "Overdue";
 
   return format(date, "MMM dd");
@@ -37,7 +37,7 @@ export const getRelativeTime = (date: Date): string => {
 export const getDateDisplayInfo = (task: Task) => {
   const targetDate = task.targetDate
     ? {
-        formatted: format(task.targetDate, "MMM dd"),
+        formatted: format(task.targetDate, "P"),
         longFormatted: format(task.targetDate, "Pp"),
         relative: getRelativeTime(task.targetDate),
         isToday: isToday(task.targetDate),
@@ -48,14 +48,14 @@ export const getDateDisplayInfo = (task: Task) => {
 
   const createdAt = task.createdAt
     ? {
-        formatted: format(task.createdAt, "MMM dd"),
+        formatted: format(task.createdAt, "P"),
         longFormatted: format(task.createdAt, "Pp"),
       }
     : null;
 
   const updatedAt = task.updatedAt
     ? {
-        formatted: format(task.updatedAt, "MMM dd"),
+        formatted: format(task.updatedAt, "P"),
         longFormatted: format(task.updatedAt, "Pp"),
       }
     : null;

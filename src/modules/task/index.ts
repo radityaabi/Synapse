@@ -13,7 +13,6 @@ export type {
 } from "@/modules/task/types/task";
 
 export {
-  formatDate,
   getRelativeTime,
   getDateDisplayInfo,
   getCategoryDisplay,
