@@ -64,7 +64,7 @@ export function TaskItem({
 
   return (
     <Card
-      className={`flex h-full flex-col gap-2 rounded-none py-2 transition-all duration-200 hover:shadow-md ${
+      className={`flex h-full flex-col gap-2 rounded-sm py-2 transition-all duration-200 hover:shadow-md ${
         isDone ? "bg-gray-50" : "bg-white"
       }`}
     >
@@ -73,21 +73,27 @@ export function TaskItem({
         <div className="mb-3 flex items-start justify-between">
           <div className="flex items-start gap-2">
             {/* Status Icon */}
-            <div className={`mt-1 rounded-sm p-1.5 ${statusDisplay.bgColor}`}>
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-full ${statusDisplay.bgColor}`}
+            >
               <Select
                 value={task.status}
                 onValueChange={(value: Task["status"]) =>
                   handleStatusChange(value)
                 }
               >
-                <SelectPrimitive.Trigger className={statusDisplay.textColor}>
-                  {statusDisplay.icon == "Circle" ? (
-                    <Circle className="h-4 w-4" />
-                  ) : statusDisplay.icon == "PlayCircle" ? (
-                    <PlayCircle className="h-4 w-4" />
-                  ) : (
-                    <CheckCircle2 className="h-4 w-4" />
-                  )}
+                <SelectPrimitive.Trigger
+                  className={`h-full w-full ${statusDisplay.textColor}`}
+                >
+                  <div className="flex h-full w-full items-center justify-center">
+                    {statusDisplay.icon == "Circle" ? (
+                      <Circle className="h-4 w-4" />
+                    ) : statusDisplay.icon == "PlayCircle" ? (
+                      <PlayCircle className="h-4 w-4" />
+                    ) : (
+                      <CheckCircle2 className="h-4 w-4" />
+                    )}
+                  </div>
                 </SelectPrimitive.Trigger>
                 <SelectContent>
                   <SelectItem value="todo" className="text-xs">
