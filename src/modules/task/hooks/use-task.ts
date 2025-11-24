@@ -69,6 +69,9 @@ export const useTasks = (
       const newTask: Task = {
         ...validatedData,
         id: lastId + 1,
+        targetDate: validatedData.targetDate
+          ? new Date(validatedData.targetDate)
+          : undefined,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
