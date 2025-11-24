@@ -181,7 +181,7 @@ export function CountdownTimer({ targetDate, isDone }: CountdownTimerProps) {
 
       {timeLeft.isToday && (
         <p className="mt-1 text-center text-xs font-medium text-amber-700">
-          Due at {format(targetDate, "HH:mm")}
+          Due at {format(targetDate, "hh:mm a")}
         </p>
       )}
     </div>
