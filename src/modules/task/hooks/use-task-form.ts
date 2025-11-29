@@ -1,8 +1,5 @@
 import { useState } from "react";
-
-interface UseTaskFormProps {
-  initialDateTime?: Date;
-}
+import type { UseTaskFormProps } from "@/modules/task/types/task";
 
 export function useTaskForm({ initialDateTime }: UseTaskFormProps = {}) {
   const [dateTime, setDateTime] = useState<Date | undefined>(initialDateTime);

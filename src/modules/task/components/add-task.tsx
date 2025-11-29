@@ -3,11 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TaskFormFields } from "@/modules/task/components/task-form-fields";
 import { useTaskForm } from "@/modules/task/hooks/use-task-form";
-
-interface AddTaskProps {
-  onTaskAdded: (task: CreateTaskData) => void;
-  onCancel: () => void;
-}
+import type { AddTaskProps } from "@/modules/task/types/task";
 
 export function AddTask({ onTaskAdded, onCancel }: AddTaskProps) {
   const { dateTime, setDateTime, handleTimeChange } = useTaskForm();

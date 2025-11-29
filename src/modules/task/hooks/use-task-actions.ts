@@ -1,10 +1,6 @@
 import { useState } from "react";
 import type { Task } from "@/modules/task/types/task";
-
-interface UseTaskActionsProps {
-  onTaskEdit?: (taskId: number, updates: Partial<Task>) => void;
-  onDelete?: (taskId: number) => void;
-}
+import type { UseTaskActionsProps } from "@/modules/task/types/task";
 
 export function useTaskActions({
   onTaskEdit,

@@ -3,12 +3,7 @@ import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
 import { getStatusDisplay } from "@/modules/task/utils/task-helpers";
 import type { Task } from "@/modules/task/types/task";
-
-interface TaskStatusSelectorProps {
-  task: Task;
-  onStatusChange: (taskId: number, newStatus: Task["status"]) => void;
-  size?: "sm" | "md" | "lg";
-}
+import type { TaskStatusSelectorProps } from "@/modules/task/types/task";
 
 export function TaskStatusSelector({
   task,

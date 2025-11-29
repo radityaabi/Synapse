@@ -1,15 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { PencilIcon, TrashIcon, EyeIcon } from "lucide-react";
-
-interface TaskActionMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
-  onViewDetail?: () => void;
-  showViewDetail?: boolean;
-  position?: "top-7 right-0" | string;
-}
+import type { TaskActionMenuProps } from "@/modules/task/types/task";
 
 export function TaskActionMenu({
   isOpen,

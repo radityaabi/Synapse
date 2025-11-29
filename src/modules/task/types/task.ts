@@ -44,6 +44,61 @@ export type Task = z.infer<typeof TaskSchema>;
 export type CreateTaskData = z.infer<typeof CreateTaskSchema>;
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>;
 
+export interface AddTaskProps {
+  onTaskAdded: (task: CreateTaskData) => void;
+  onCancel: () => void;
+}
+
+export interface EditTaskProps {
+  task: Task;
+  onTaskEdited: (taskId: number, updates: Partial<Task>) => void;
+  onCancel: () => void;
+}
+
+export interface TaskActionMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onViewDetail?: () => void;
+  showViewDetail?: boolean;
+  position?: "top-7 right-0" | string;
+}
+
+export interface UseTaskActionsProps {
+  onTaskEdit?: (taskId: number, updates: Partial<Task>) => void;
+  onDelete?: (taskId: number) => void;
+}
+
+export interface TaskFormFieldsProps {
+  dateTime?: Date;
+  onDateTimeChange: (date: Date | undefined) => void;
+  onTimeChange: (hours: number, minutes: number) => void;
+  defaultTitle?: string;
+  defaultDescription?: string;
+  defaultCategory?: string;
+  defaultPriority?: string;
+  defaultStatus?: string;
+}
+
+export interface UseTaskFormProps {
+  initialDateTime?: Date;
+}
+
+export interface TaskHeaderProps {
+  task: Task;
+  titleSize?: "sm" | "md" | "lg";
+  showActionButton?: boolean;
+  onActionClick?: () => void;
+  actionMenu?: React.ReactNode;
+}
+
+export interface TaskStatusSelectorProps {
+  task: Task;
+  onStatusChange: (taskId: number, newStatus: Task["status"]) => void;
+  size?: "sm" | "md" | "lg";
+}
+
 export interface TaskItemProps {
   task: Task;
   isActionMenuOpen: boolean;

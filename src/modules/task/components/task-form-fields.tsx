@@ -18,17 +18,7 @@ import { CalendarIcon, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface TaskFormFieldsProps {
-  dateTime?: Date;
-  onDateTimeChange: (date: Date | undefined) => void;
-  onTimeChange: (hours: number, minutes: number) => void;
-  defaultTitle?: string;
-  defaultDescription?: string;
-  defaultCategory?: string;
-  defaultPriority?: string;
-  defaultStatus?: string;
-}
+import type { TaskFormFieldsProps } from "@/modules/task/types/task";
 
 export function TaskFormFields({
   dateTime,

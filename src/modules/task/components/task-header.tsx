@@ -2,15 +2,7 @@ import {
   getPriorityDisplay,
   getCategoryDisplay,
 } from "@/modules/task/utils/task-helpers";
-import type { Task } from "@/modules/task/types/task";
-
-interface TaskHeaderProps {
-  task: Task;
-  titleSize?: "sm" | "md" | "lg";
-  showActionButton?: boolean;
-  onActionClick?: () => void;
-  actionMenu?: React.ReactNode;
-}
+import type { TaskHeaderProps } from "@/modules/task/types/task";
 
 export function TaskHeader({
   task,
