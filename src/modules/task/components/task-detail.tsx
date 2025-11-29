@@ -1,50 +1,61 @@
 import { useParams, useNavigate } from "react-router";
 import { useTasks } from "@/modules/task/hooks/use-task";
 import {
-  getStatusDisplay,
+  getDateDisplayInfo,
   getPriorityDisplay,
   getCategoryDisplay,
-  getDateDisplayInfo,
 } from "@/modules/task/utils/task-helpers";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   CalendarIcon,
   ClockIcon,
   TargetIcon,
   ArrowLeftIcon,
-  CheckCircle2,
-  Circle,
-  PlayCircle,
-  PencilIcon,
-  TrashIcon,
+  MoreVertical,
 } from "lucide-react";
-import { CountdownTimer } from "./countdown-timer";
+import { CountdownTimer } from "../components/countdown-timer";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { EditTask } from "./edit-task";
-import { useState } from "react";
-import * as SelectPrimitive from "@radix-ui/react-select";
-import { Select, SelectContent, SelectItem } from "@/components/ui/select";
-import type { Task } from "@/modules/task/types/task";
+import { EditTask } from "../components/edit-task";
+import { useEffect } from "react";
+import { useTaskActions } from "../hooks/use-task-actions";
+import { TaskActionMenu } from "../components/task-action-menu";
+import { TaskStatusSelector } from "../components/task-status-selector";
+import { TaskHeader } from "../components/task-header";
 
 export function TaskDetailPage() {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
   const { tasks, editTask, deleteTask } = useTasks();
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const task = tasks.find((t) => t.id === parseInt(taskId || "0"));
+
+  const {
+    isActionMenuOpen,
+    isEditDialogOpen,
+    handleActionClick,
+    handleCloseActionMenu,
+    handleEditClick,
+    handleEditCancel,
+    handleTaskEdited,
+    handleDeleteClick,
+    handleStatusChange,
+  } = useTaskActions({
+    onTaskEdit: editTask,
+    onDelete: (taskId) => {
+      deleteTask(taskId);
+      navigate("/");
+    },
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [taskId]);
 
   if (!task) {
     return (
@@ -66,46 +77,34 @@ export function TaskDetailPage() {
     );
   }
 
-  const statusDisplay = getStatusDisplay(task.status);
-  const priorityDisplay = getPriorityDisplay(task.priority);
-  const categoryDisplay = getCategoryDisplay(task.category);
   const dateInfo = getDateDisplayInfo(task);
   const isDone = task.status === "done";
 
-  const statusIcon =
-    statusDisplay.icon === "Circle" ? (
-      <Circle className="h-5 w-5" />
-    ) : statusDisplay.icon === "PlayCircle" ? (
-      <PlayCircle className="h-5 w-5" />
-    ) : (
-      <CheckCircle2 className="h-5 w-5" />
-    );
+  const ActionButton = (
+    <div className="relative">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-7 w-7 p-0 text-gray-400 hover:text-gray-600"
+        onClick={handleActionClick}
+      >
+        <MoreVertical className="h-3.5 w-3.5" />
+      </Button>
 
-  const handleStatusChange = (newStatus: Task["status"]) => {
-    editTask(task.id, { status: newStatus });
-  };
-
-  const handleTaskEdited = (taskId: number, updates: Partial<Task>) => {
-    editTask(taskId, updates);
-    setIsEditDialogOpen(false);
-  };
-
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      deleteTask(task.id);
-      navigate("/");
-    }
-  };
-
-  const handleEditCancel = () => {
-    setIsEditDialogOpen(false);
-  };
+      <TaskActionMenu
+        isOpen={isActionMenuOpen}
+        onClose={handleCloseActionMenu}
+        onEdit={handleEditClick}
+        onDelete={() => handleDeleteClick(task.id)}
+      />
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
@@ -121,66 +120,20 @@ export function TaskDetailPage() {
           <CardContent className="p-4">
             {/* Task Header */}
             <div className="mb-4 flex items-start gap-3">
-              {/* Status Selector */}
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-full ${statusDisplay.bgColor} shadow-sm`}
-              >
-                <Select
-                  value={task.status}
-                  onValueChange={(value: Task["status"]) =>
-                    handleStatusChange(value)
-                  }
-                >
-                  <SelectPrimitive.Trigger
-                    className={`h-full w-full ${statusDisplay.textColor} cursor-pointer rounded-full hover:opacity-80`}
-                  >
-                    <div className="flex h-full w-full items-center justify-center rounded-full">
-                      {statusIcon}
-                    </div>
-                  </SelectPrimitive.Trigger>
-                  <SelectContent>
-                    <SelectItem value="todo" className="text-sm">
-                      <div className="flex items-center gap-2">
-                        <Circle className="h-4 w-4" />
-                        To Do
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="in-progress" className="text-sm">
-                      <div className="flex items-center gap-2">
-                        <PlayCircle className="h-4 w-4" />
-                        In Progress
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="done" className="text-sm">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4" />
-                        Done
-                      </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="shrink-0">
+                <TaskStatusSelector
+                  task={task}
+                  onStatusChange={handleStatusChange}
+                  size="lg"
+                />
               </div>
 
-              <div className="flex-1">
-                <h1
-                  className={`text-xl font-bold ${isDone ? "text-gray-500" : "text-gray-900"}`}
-                >
-                  {task.title}
-                </h1>
-
-                {/* Category & Priority Badges */}
-                <div className="mt-2 flex flex-wrap items-center gap-1">
-                  <span
-                    className={`rounded-md px-2 py-1 text-xs font-semibold text-white ${categoryDisplay.bgColor}`}
-                  >
-                    {task.category}
-                  </span>
-                  <span
-                    className={`rounded-md border px-2 py-1 text-xs font-semibold ${priorityDisplay.bgColor} ${priorityDisplay.textColor}`}
-                  >
-                    {priorityDisplay.label}
-                  </span>
-                </div>
+              <div className="min-w-0 flex-1">
+                <TaskHeader
+                  task={task}
+                  titleSize="lg"
+                  actionMenu={ActionButton}
+                />
               </div>
             </div>
 
@@ -279,16 +232,14 @@ export function TaskDetailPage() {
                   {/* Priority */}
                   <div className="flex items-center gap-2 p-2">
                     <div
-                      className={`rounded-full p-1.5 ${priorityDisplay.bgColor}`}
-                    >
-                      <div className={priorityDisplay.textColor}></div>
-                    </div>
+                      className={`rounded-full p-1.5 ${getPriorityDisplay(task.priority).bgColor}`}
+                    />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">
                         Priority
                       </p>
                       <p className="text-sm text-gray-600">
-                        {priorityDisplay.label}
+                        {getPriorityDisplay(task.priority).label}
                       </p>
                     </div>
                   </div>
@@ -296,8 +247,8 @@ export function TaskDetailPage() {
                   {/* Category */}
                   <div className="flex items-center gap-2 p-2">
                     <div
-                      className={`rounded-full p-1.5 ${categoryDisplay.bgColor}`}
-                    ></div>
+                      className={`rounded-full p-1.5 ${getCategoryDisplay(task.category).bgColor}`}
+                    />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">
                         Category
@@ -309,28 +260,11 @@ export function TaskDetailPage() {
               </Card>
             </div>
           </CardContent>
-
-          {/* Action Buttons Footer */}
-          <CardFooter>
-            <div className="flex w-full justify-end-safe gap-2">
-              <Button
-                variant="secondary"
-                onClick={() => setIsEditDialogOpen(true)}
-              >
-                <PencilIcon className="h-4 w-4" />
-                Edit
-              </Button>
-              <Button variant="destructive" onClick={handleDelete}>
-                <TrashIcon className="h-4 w-4" />
-                Delete
-              </Button>
-            </div>
-          </CardFooter>
         </Card>
       </div>
 
       {/* Edit Task Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+      <Dialog open={isEditDialogOpen} onOpenChange={handleEditCancel}>
         <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Task</DialogTitle>

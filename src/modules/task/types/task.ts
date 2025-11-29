@@ -51,12 +51,14 @@ export interface TaskItemProps {
   onCloseActionMenu: () => void;
   onTaskEdit: (taskId: number, updates: Partial<Task>) => void;
   onDelete: () => void;
+  onEdit: (taskId: number) => void;
 }
 
 export interface TaskListProps {
   tasks: Task[];
   onTaskEdit: (taskId: number, updates: Partial<Task>) => void;
   onTaskDelete: (taskId: number) => void;
+  onEdit: (taskId: number) => void;
 }
 
 export interface TasksHook {
@@ -64,5 +66,4 @@ export interface TasksHook {
   addTask: (task: CreateTaskData) => void;
   editTask: (taskId: number, updates: Partial<Task>) => void;
   deleteTask: (taskId: number) => void;
-  getTask: (taskId: number) => Task | undefined;
 }

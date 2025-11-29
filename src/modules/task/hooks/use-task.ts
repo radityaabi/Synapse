@@ -121,15 +121,10 @@ export const useTasks = (
     }
   };
 
-  const getTask = (taskId: number) => {
-    return tasks.find((task) => task.id === taskId);
-  };
-
   return {
     tasks,
     addTask,
     editTask,
     deleteTask,
-    getTask,
   };
 };

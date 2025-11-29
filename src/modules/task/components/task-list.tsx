@@ -2,7 +2,12 @@ import type { TaskListProps } from "@/modules/task/types/task";
 import { TaskItem } from "@/modules/task/components/task-item";
 import { useState } from "react";
 
-export function TaskList({ tasks, onTaskEdit, onTaskDelete }: TaskListProps) {
+export function TaskList({
+  tasks,
+  onTaskEdit,
+  onTaskDelete,
+  onEdit,
+}: TaskListProps) {
   const [openActionMenu, setOpenActionMenu] = useState<number | null>(null);
 
   const handleDelete = (taskId: number) => {
@@ -29,6 +34,7 @@ export function TaskList({ tasks, onTaskEdit, onTaskDelete }: TaskListProps) {
           onCloseActionMenu={closeActionMenu}
           onTaskEdit={onTaskEdit}
           onDelete={() => handleDelete(task.id)}
+          onEdit={onEdit}
         />
       ))}
     </div>
