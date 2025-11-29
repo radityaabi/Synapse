@@ -43,7 +43,6 @@ export function TaskItem({
 
   const isDoneStyling = `${isDone ? "text-gray-400" : "text-gray-500"}`;
 
-  // Action Button untuk TaskHeader
   const ActionButton = (
     <div className="relative">
       <Button
