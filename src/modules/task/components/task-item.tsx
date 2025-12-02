@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import type { Task, TaskStatus } from "@/modules/task/types/task";
+import type { TaskItemProps, TaskStatus } from "@/modules/task/types/task";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import * as SelectPrimitive from "@radix-ui/react-select";
@@ -27,13 +27,6 @@ import {
   getDateDisplayInfo,
   getStatusDisplay,
 } from "@/modules/task/utils/task-helpers";
-
-interface TaskItemProps {
-  task: Task;
-  onEdit: (id: number, data: Partial<Task>) => void;
-  onDelete: (id: number) => void;
-  onOpenEdit: (task: Task) => void;
-}
 
 export function TaskItem({
   task,
