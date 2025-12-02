@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Dashboard, DetailTask } from "@/routes";
+import { Dashboard, DetailPage } from "@/routes";
 import SynapseLogo from "@/assets/synapse.svg";
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export function App() {
           path="/detail/:id"
           element={
             <Layout>
-              <DetailTask />
+              <DetailPage />
             </Layout>
           }
         />

@@ -1,5 +1,5 @@
 import { TaskDetail } from "@/modules/task/components/task-detail";
 
-export function DetailTask() {
+export function DetailPage() {
   return <TaskDetail />;
 }
