@@ -21,12 +21,6 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { CountdownTimer } from "@/modules/task/components/countdown-timer";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { TaskForm } from "@/modules/task/components/task-form";
 import type { TaskStatus, TaskInput } from "@/modules/task/types/task";
 import * as SelectPrimitive from "@radix-ui/react-select";
@@ -38,10 +32,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function TaskDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { tasks, edit: editTask, delete: deleteTask } = useTasks();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
@@ -190,7 +193,7 @@ export function TaskDetail() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={handleDelete}
+                  onClick={() => setIsDeleteOpen(true)}
                   className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -353,6 +356,33 @@ export function TaskDetail() {
             onSave={handleEdit}
             onCancel={() => setIsEditDialogOpen(false)}
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete task?</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete "{task.title}"? This action cannot
+              be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setIsDeleteOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700"
+              onClick={() => {
+                handleDelete();
+                setIsDeleteOpen(false);
+              }}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

@@ -72,10 +72,7 @@ export const useTasks = (): UseTasksReturn => {
       const task = currentTasks.find((task) => task.id === id);
       if (!task) return currentTasks;
 
-      if (window.confirm(`Delete "${task.title}"?`)) {
-        return currentTasks.filter((task) => task.id !== id);
-      }
-      return currentTasks;
+      return currentTasks.filter((task) => task.id !== id);
     });
   }, []);
 

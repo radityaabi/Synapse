@@ -27,6 +27,15 @@ import {
   getDateDisplayInfo,
   getStatusDisplay,
 } from "@/modules/task/utils/task-helpers";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
 
 export function TaskItem({
   task,
@@ -35,6 +44,8 @@ export function TaskItem({
   onOpenEdit,
 }: TaskItemProps) {
   const navigate = useNavigate();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   const dateInfo = getDateDisplayInfo(task);
   const isDone = task.status === "done";
 
@@ -162,14 +173,14 @@ export function TaskItem({
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => navigate(`/detail/${task.id}`)}>
               <Eye className="mr-2 h-4 w-4" />
-              View Details
+              View
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onOpenEdit(task)}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onDelete(task.id)}
+              onClick={() => setIsDeleteOpen(true)}
               className="text-red-600"
             >
               <Trash2 className="mr-2 h-4 w-4" />
@@ -177,6 +188,36 @@ export function TaskItem({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete the task "{task.title}"? This
+                action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="secondary"
+                onClick={() => setIsDeleteOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  onDelete(task.id);
+                  setIsDeleteOpen(false);
+                }}
+              >
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Card>
   );
