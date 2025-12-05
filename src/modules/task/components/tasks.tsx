@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router";
 import { useTasks } from "@/modules/task/hooks/use-tasks";
 import { TaskForm } from "@/modules/task/components/task-form";
 import { TaskList } from "@/modules/task/components/task-list";
+import { TaskSearch } from "@/modules/task/components/search-tasks-form";
 import { CategoryProgressCard } from "@/modules/task/components/category-progress-card";
 import type { Task, TaskInput } from "@/modules/task/types/task";
 import { Button } from "@/components/ui/button";
@@ -21,10 +23,24 @@ export function TasksPage() {
     delete: deleteTask,
   } = useTasks();
 
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("q") || "";
+
   const [dialog, setDialog] = useState<{
     open: boolean;
     task?: Task;
   }>({ open: false });
+
+  const filteredTasks = tasks.filter((task) => {
+    if (!searchQuery.trim()) return true;
+
+    const query = searchQuery.toLowerCase();
+    return (
+      task.title.toLowerCase().includes(query) ||
+      task.description?.toLowerCase().includes(query) ||
+      task.category.toLowerCase().includes(query)
+    );
+  });
 
   const handleSave = (data: TaskInput) => {
     if (dialog.task) {
@@ -46,16 +62,26 @@ export function TasksPage() {
         </Button>
       </div>
 
+      {/* Search Form */}
+      <TaskSearch />
+
       {/* Progress Card */}
       <CategoryProgressCard tasks={tasks} />
 
       {/* Task List */}
       <TaskList
-        tasks={tasks}
+        tasks={filteredTasks}
         onEdit={editTask}
         onDelete={deleteTask}
         onOpenEdit={(task) => setDialog({ open: true, task })}
       />
+
+      {/* Search - No Results */}
+      {searchQuery && filteredTasks.length === 0 && (
+        <div className="py-12 text-center">
+          <p className="text-gray-500">No tasks found matching your search.</p>
+        </div>
+      )}
 
       {/* Dialog Add / Edit */}
       <Dialog open={dialog.open} onOpenChange={(open) => setDialog({ open })}>
