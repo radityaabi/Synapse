@@ -63,7 +63,7 @@ This application provides a complete solution for managing tasks with intuitive 
 
 ### **Frontend**
 
-- React 18
+- React 19
 - TypeScript
 - Tailwind CSS
 - React Router
@@ -72,7 +72,7 @@ This application provides a complete solution for managing tasks with intuitive 
 
 ### **UI Components**
 
-- Radix UI – accessible components
+- Shadcn
 - Custom Tailwind-based components
 - Lucide React icons
 
